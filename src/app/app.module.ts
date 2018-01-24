@@ -14,6 +14,7 @@ import  {
 import { FormsModule } from '@angular/forms';
 import  {  BrowserAnimationsModule  }  from  '@angular/platform-browser/animations';
 import { RatingCategoryPipe } from './pipes/rating-category.pipe';
+import { RatingComponent } from './rating/rating.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { RatingCategoryPipe } from './pipes/rating-category.pipe';
     AppComponent,
     CollectionComponent,
     RatingCategoryPipe,
+    RatingComponent,
     AboutComponent
   ],
   imports:  [
