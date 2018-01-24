@@ -10,15 +10,17 @@ import  {
     MatListModule,  MatCardModule,  MatSlideToggleModule,  MatDialogModule,
     MatIconModule,  MatInputModule,  MatSnackBarModule,  MatTabsModule,
     MatButtonModule,  MatLineModule,  MatToolbarModule
-}  from  '@angular/material';
-import  {  BrowserAnimationsModule  }  from  '@angular/platform-browser/animations';
+} from '@angular/material';
 import { FormsModule } from '@angular/forms';
+import  {  BrowserAnimationsModule  }  from  '@angular/platform-browser/animations';
+import { RatingCategoryPipe } from './pipes/rating-category.pipe';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CollectionComponent,
+    RatingCategoryPipe,
     AboutComponent
   ],
   imports:  [
