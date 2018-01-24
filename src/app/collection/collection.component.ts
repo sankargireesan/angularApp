@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Ibook } from '../ibook';
 import { MatSnackBar } from '@angular/material';
 import { DataService } from '../services/data.service';
-
+import { Subject } from 'rxjs/Subject';
 @Component({
   selector: 'my-collection',
   templateUrl: './collection.component.html',
@@ -18,14 +18,17 @@ export class CollectionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.books = this._dataService.getBooks();
+    this._dataService.search(this.searchTerm$)
+      .subscribe(books => {
+        this.books = books;
+      });
   }
   pageTitle: string = 'My Collections'
   books: Array<Ibook>;
   showOperatingHours: boolean = false;
   openingTime: Date;
   closingTime: Date;
-
+  searchTerm$ = new Subject<string>();
 
   updateMessage(message: string, type: string): void {
     if (message) {
@@ -37,5 +40,11 @@ export class CollectionComponent implements OnInit {
 
   onRatingUpdate(book: Ibook): void {
     this.updateMessage(book.title, " Rating has been updated");
+  }
+
+  getBooks(): void {
+    this._dataService.getBooks().subscribe(
+      books => this.books = books,
+      error => this.updateMessage(<any>error, 'ERROR'));
   }
 }
