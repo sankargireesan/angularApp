@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-
+import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
 import { CollectionComponent } from './collection/collection.component';
@@ -16,6 +15,9 @@ import  {  BrowserAnimationsModule  }  from  '@angular/platform-browser/ani
 import { RatingCategoryPipe } from './pipes/rating-category.pipe';
 import { RatingComponent } from './rating/rating.component';
 import { HttpModule } from '@angular/http';
+import { TabsComponent } from './tabs/tabs.component';
+import { AppRoutingModule } from './app-routing/app-routing.module';
+import { BookDetailComponent } from './book-detail/book-detail.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { HttpModule } from '@angular/http';
     CollectionComponent,
     RatingCategoryPipe,
     RatingComponent,
+    TabsComponent,
+    BookDetailComponent,
     AboutComponent
   ],
   imports:  [
@@ -40,7 +44,9 @@ import { HttpModule } from '@angular/http';
     MatInputModule,
     MatToolbarModule,
     BrowserAnimationsModule,
-    HttpModule
+    HttpModule,
+    RouterModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
