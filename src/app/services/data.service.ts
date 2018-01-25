@@ -17,13 +17,12 @@ export class DataService {
 
   private handleError(error: any) {
     let errMsg = (error.message) ? error.message : error.status ?
-    `${error.status} - ${error.statusText}` : 'Server error';
+      `${error.status} - ${error.statusText}` : 'Server error';
     console.error(errMsg);
-    return Observable.throw(errMsg);  
+    return Observable.throw(errMsg);
   }
 
-  search(terms: Observable<string>)
-  {
+  search(terms: Observable<string>) {
     return terms.debounceTime(400)
       .distinctUntilChanged()
       .switchMap(term => this.getBooks(term));
@@ -54,7 +53,7 @@ export class DataService {
   getPreviousBookId(id: number): Observable<number> {
     return this.getBooks()
       .map((books: Ibook[]) => {
-      return books[Math.max(0, books.findIndex(b => b.id === id) - 1)].id;
+        return books[Math.max(0, books.findIndex(b => b.id === id) - 1)].id;
       })
       .catch(this.handleError);
   }
@@ -82,6 +81,20 @@ export class DataService {
         let nextId: number = <number>response.json();
         return nextId;
       })
+      .catch(this.handleError);
+  }
+
+  canActivate(id): Observable<boolean> {
+    return this._http.get(`${this._booksUrl + "/canactivate"}/${id}`)
+      .map((response: Response) => {
+        let canactivate: boolean = <boolean>response.json();
+        return canactivate;
+      })
+      .catch(this.handleError);
+  }
+
+  addBook(book: Ibook): Observable<void> {
+    return this._http.post(this._booksUrl + "/addbook", book)
       .catch(this.handleError);
   }
 }

@@ -5,6 +5,8 @@ import { DataService } from '../services/data.service';
 import { Subject } from 'rxjs/Subject';
 import { Router } from '@angular/router';
 import { BookDetailComponent } from '../book-detail/book-detail.component';
+import { NewBookComponent } from '../new-book/new-book.component';
+
 @Component({
   templateUrl: './collection.component.html',
   styleUrls: ['./collection.component.css']
@@ -61,7 +63,7 @@ export class CollectionComponent implements OnInit {
         this._snackBar.open(`"${book.title}" has been updated!`, 'DISMISS', {
           duration: 3000
         });
-    }, error => this.updateMessage(<any>error, 'ERROR'));
+      }, error => this.updateMessage(<any>error, 'ERROR'));
   }
 
   openDialog(bookId: number): void { let config = { width: '650px', height: '400x', position: { top: '50px' } }; let dialogRef = this._dialog.open(BookDetailComponent, config); dialogRef.componentInstance.bookId = bookId; dialogRef.afterClosed().subscribe(res => { this.getBooks(); }); }
@@ -76,6 +78,32 @@ export class CollectionComponent implements OnInit {
           duration: 3000
         });
       }, error => this.updateMessage(<any>error, 'ERROR'));
+  }
+
+  addBook(): void {
+    let config = {
+      width: '650px', height: '650px', position: { top: '50px' },
+      disableClose: true
+    };
+    let dialogRef = this._dialog.open(NewBookComponent, config);
+    dialogRef.afterClosed().subscribe(newBook => {
+      if (newBook) {
+        this._dataService.getNextId().subscribe(
+          (id) => {
+            newBook.id = id;
+            this._dataService.addBook(newBook)
+              .subscribe(
+              () => {
+                this.getBooks()
+                this._snackBar.open(`Book added!`,
+                  'DISMISS', {
+                    duration: 3000
+                  });
+              },
+              error => this.updateMessage(<any>error, 'ERROR'));
+          });
+      }
+    });
   }
 
 }
